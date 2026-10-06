@@ -6,8 +6,8 @@
 <style>
 /* 레이아웃: 가로 스냅 페이지. 한 장 = 장면 그림 + 그 장면의 대사 두세 마디. 표지 → 9장면 → 출처. */
 :root{
-  --paper:#E9D7B4;      /* 덱과 같은 베이지 */
-  --paper-2:#F3E8D2;    /* 대사 카드 */
+  --paper:#F4EBDA;      /* 옅은 베이지 */
+  --paper-2:#FBF6EC;    /* 대사 카드 */
   --ink:#1E1A14;
   --ink-2:#5A5043;
   --line:rgba(30,26,20,.14);
@@ -48,8 +48,8 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui
 /* 표지 */
 .cover{justify-content:flex-end;padding:0}
 .cover .pic{aspect-ratio:auto;border-radius:0;flex:1 1 auto;min-height:0}
-.cover .pic img{object-position:60% 40%}
-.cover .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(28,24,19,.78) 100%)}
+.cover .pic img{object-position:76% 50%}
+.cover .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(28,24,19,.72) 100%)}
 .cover .meta{position:absolute;left:0;right:0;bottom:0;padding:0 22px 28px;color:#FBF3E4;z-index:1}
 .cover .kicker{font:500 13px/1.4 var(--font-ui);letter-spacing:.08em;opacity:.85;margin:0 0 10px}
 .cover h1{font-family:var(--font-story);font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;text-wrap:balance}
@@ -80,7 +80,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui
   <div class="pages" id="pages" aria-label="동화책 페이지">
 
     <section class="page cover" data-p="0">
-      <div class="pic"><img src="img/s4.jpg" alt="창가에서 함께 그림책을 보는 노인과 간병로봇">
+      <div class="pic"><img src="img/s1.jpg" alt="저녁 거실에서 찻잔을 들고 마주 앉은 노인과 간병로봇">
         <div class="meta">
           <p class="kicker">짧은 글로 읽는 그림책</p>
           <h1>상상이란<br>무엇인가요?</h1>
