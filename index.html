@@ -207,7 +207,13 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui
   next.addEventListener('click',function(){go(cur+1)});
   document.getElementById('again').addEventListener('click',function(){go(0)});
   document.addEventListener('keydown',function(e){ if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1); });
-  var t; pages.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var i=Math.round(pages.scrollLeft/pages.clientWidth); if(i!==cur){cur=i;render();} },80); },{passive:true});
+  function sync(){ var i=Math.round(pages.scrollLeft/pages.clientWidth); if(i!==cur){cur=i;render();} }
+  var t; pages.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(sync,60); },{passive:true});
+  pages.addEventListener('scrollend',sync);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting&&e.intersectionRatio>=0.6){ var i=list.indexOf(e.target); if(i!==cur){cur=i;render();} } }); },{root:pages,threshold:[0.6]});
+    list.forEach(function(pg){io.observe(pg);});
+  }
   window.addEventListener('resize',function(){ go(cur,true); });
   var saved=0; try{ saved=parseInt(localStorage.getItem('imagine-book-page')||'0',10)||0; }catch(e){}
   if(saved>0&&saved<n-1) go(saved,true); else render();
