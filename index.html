@@ -1,0 +1,212 @@
+<meta charset="utf-8">
+<title>상상이란 무엇인가요?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* 레이아웃: 가로 스냅 페이지. 한 장 = 장면 그림 + 그 장면의 대사 두세 마디. 표지 → 9장면 → 출처. */
+:root{
+  --paper:#E9D7B4;      /* 덱과 같은 베이지 */
+  --paper-2:#F3E8D2;    /* 대사 카드 */
+  --ink:#1E1A14;
+  --ink-2:#5A5043;
+  --line:rgba(30,26,20,.14);
+  --robot:#5FB391;      /* 제피 가슴의 민트 불빛 */
+  --elder:#C98A3C;      /* 노인 카디건·램프 */
+  --dot:rgba(30,26,20,.22);
+  --font-story:"Gowun Batang","Nanum Myeongjo","Apple SD Gothic Neo",serif;
+  --font-ui:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1C1813; --paper-2:#27211A; --ink:#F0E6D2; --ink-2:#B8AB95; --line:rgba(240,230,210,.14);
+    --robot:#7FD3B1; --elder:#E0A860; --dot:rgba(240,230,210,.25); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1C1813; --paper-2:#27211A; --ink:#F0E6D2; --ink-2:#B8AB95; --line:rgba(240,230,210,.14);
+  --robot:#7FD3B1; --elder:#E0A860; --dot:rgba(240,230,210,.25); color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui);-webkit-font-smoothing:antialiased;overflow:hidden}
+.book{height:100%;display:flex;flex-direction:column}
+.pages{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.pages::-webkit-scrollbar{display:none}
+.page{flex:0 0 100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow-y:auto;overscroll-behavior-y:contain;padding:12px 16px 20px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px}
+.pic{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;max-width:100%;background:#2a2218;flex:0 0 auto}
+.pic img{width:100%;height:100%;object-fit:cover;object-position:68% 50%;display:block}
+.pic .no{position:absolute;left:12px;top:10px;font:500 12px/1 var(--font-ui);letter-spacing:.08em;color:#fff;background:rgba(0,0,0,.45);padding:7px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
+.lines{display:flex;flex-direction:column;gap:14px;font-family:var(--font-story)}
+.line{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.who{display:inline-flex;align-items:center;gap:6px;font:700 12px/1.2 var(--font-ui);letter-spacing:.04em;color:var(--ink-2);padding-top:5px;white-space:nowrap;min-width:46px}
+.who::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--dot)}
+.line.robot .who::before{background:var(--robot)}
+.line.elder .who::before{background:var(--elder)}
+.say{margin:0;font-size:17px;line-height:1.8;word-break:keep-all;text-wrap:pretty}
+.line.note{grid-template-columns:1fr}
+.line.note .say{font-size:15px;line-height:1.75;color:var(--ink-2);padding:10px 14px;border-left:0;background:var(--paper-2);border-radius:10px}
+/* 표지 */
+.cover{justify-content:flex-end;padding:0}
+.cover .pic{aspect-ratio:auto;border-radius:0;flex:1 1 auto;min-height:0}
+.cover .pic img{object-position:60% 40%}
+.cover .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(28,24,19,.78) 100%)}
+.cover .meta{position:absolute;left:0;right:0;bottom:0;padding:0 22px 28px;color:#FBF3E4;z-index:1}
+.cover .kicker{font:500 13px/1.4 var(--font-ui);letter-spacing:.08em;opacity:.85;margin:0 0 10px}
+.cover h1{font-family:var(--font-story);font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;text-wrap:balance}
+.cover .by{font:400 14px/1.5 var(--font-ui);opacity:.9;margin:0}
+.cover .hint{font:400 12px/1.4 var(--font-ui);opacity:.7;margin:18px 0 0}
+/* 마지막 */
+.end{justify-content:center;align-items:center;text-align:center;gap:10px}
+.end .pic{width:62%;aspect-ratio:1;border-radius:50%}
+.end h2{font-family:var(--font-story);font-size:22px;margin:14px 0 2px}
+.end p{margin:0;font-size:14px;line-height:1.7;color:var(--ink-2)}
+.end a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;word-break:break-all}
+.end .btn{margin-top:14px;font:500 14px/1 var(--font-ui);padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);cursor:pointer}
+/* 하단 바 */
+.bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--paper)}
+.dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--dot);transition:transform .2s,background .2s}
+.dots i.on{background:var(--ink);transform:scale(1.35)}
+.nav{display:flex;gap:6px}
+.nav button{font:500 13px/1 var(--font-ui);padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.nav button:disabled{opacity:.35;cursor:default}
+.nav button:focus-visible,.end .btn:focus-visible{outline:2px solid var(--robot);outline-offset:2px}
+.counter{font:500 12px/1 var(--font-ui);color:var(--ink-2);font-variant-numeric:tabular-nums;min-width:44px;text-align:center}
+@media (min-width:600px){ .book{max-width:480px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ .pages{scroll-behavior:auto} .dots i{transition:none} }
+</style>
+
+<div class="book" id="book">
+  <div class="pages" id="pages" aria-label="동화책 페이지">
+
+    <section class="page cover" data-p="0">
+      <div class="pic"><img src="img/s4.jpg" alt="창가에서 함께 그림책을 보는 노인과 간병로봇">
+        <div class="meta">
+          <p class="kicker">짧은 글로 읽는 그림책</p>
+          <h1>상상이란<br>무엇인가요?</h1>
+          <p class="by">오영 · 브런치 「일상과 사색」</p>
+          <p class="hint">옆으로 넘기거나 아래 버튼으로 읽어요</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-p="1">
+      <div class="pic"><img src="img/s1.jpg" alt="저녁 거실, 찻잔을 든 노인과 로봇"><span class="no">01 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“주인님, 질문이 있습니다. 상상이라는 것은 무엇인가요?”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“글쎄… 상상이라… 이렇게 보자. 상상은 가정의 발전된 형태라고. 가정은 어떤 상황을 전제하는 것이라고 할 수 있지? 너도 수많은 가정을 통해서 너만의 답안을 찾지 않니?”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="2">
+      <div class="pic"><img src="img/s2.jpg" alt="책상에서 그림책을 함께 보는 로봇과 노인"><span class="no">02 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“네… 저는 여러 상황을 조건으로 하고 시뮬레이션한 후 최적의 솔루션을 찾아 실행하거나 제안합니다. 그렇게 프로그래밍된 것으로 판단합니다.”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“그래… 그 가정을 꼭 실행할 필요는 없지… 너는 그 시뮬레이션한 결과를 꼭 실행하지는 않지?”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="3">
+      <div class="pic"><img src="img/s3.jpg" alt="펼쳐진 그림책과 노인의 손, 로봇의 손"><span class="no">03 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“네. 저는 우선 솔루션을 제안하고 주인님이 결정하면 실행하도록 되어 있습니다. 물론 그 실행이 로봇의 법칙에 위배되지 않는 전제하에요. 하지만 인간이 위기에 처해 있다면 승인 없이 제가 판단한 솔루션을 실행할 수도 있습니다.”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“그래… 그럼 다시 상상으로 가보자고. 그 수많은 가정들은 아직 발생하지 않은 일이야. 그렇지?”</p></div>
+        <div class="line robot"><span class="who">로봇</span><p class="say">“네… 그렇죠.”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="4">
+      <div class="pic"><img src="img/s4.jpg" alt="도시 저녁 풍경이 보이는 창가의 두 사람"><span class="no">04 / 09</span></div>
+      <div class="lines">
+        <div class="line elder"><span class="who">노인</span><p class="say">“발생하지 않았지만 가정을 하잖아? 그게 상상의 시작이라고 하자. 자… 상상이란 건 자아가 만들어낸 상황인 거지… 사전적인 정의는 모르겠다. 그냥 그렇다고 하자고…”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“상상은 발생할 수도 또는 아예 발생하지 않을 수도 있는 가정을 하는 거라고 생각해 봐…”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="5">
+      <div class="pic"><img src="img/s5.jpg" alt="하늘에 떠 있는 섬들을 창밖으로 바라보는 로봇과 노인"><span class="no">05 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“하지만, 저는 발생할 확률이 제로인 가정은 하지 않아요. 불필요한 가정이거든요.”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“그래… 괜찮아. 그냥 확률이 0.00001%라고 하고 가정해 봐. 다른 확률이 높은 가정에 비해 채택되지 않겠지만 말야. 조금 더 살을 붙여서 황당한 가정들을 해봐.”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="6">
+      <div class="pic"><img src="img/s7.jpg" alt="램프 불빛 아래 웃으며 이야기하는 노인과 로봇"><span class="no">06 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“잠시만요. 살을 붙인다는 게 무슨 의미죠? 좀 끔찍하게 들리네요.”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“하하하하… 그렇게 들리나? 여기서 살을 붙인다는 표현은 생각을 확장해 보자는 의미였어. 인간들은 가끔 그렇게 표현해. 그 단어 단어의 의미를 직접 부여하지 않고 조합한 유사한 의도의 구어체라고나 할까?”</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="7">
+      <div class="pic"><img src="img/s8.jpg" alt="모래시계 옆에서 메모하는 로봇과 턱을 괸 노인"><span class="no">07 / 09</span></div>
+      <div class="lines">
+        <div class="line robot"><span class="who">로봇</span><p class="say">“아 그렇군요. 그러면 조금은 이해할 것 같아요. 상상의 의미를. 아직 정확히는 모르겠지만…”</p></div>
+        <div class="line elder"><span class="who">노인</span><p class="say">“너무 빨리 알려고 하지 마. 너는 특별하기 때문에 시간이 흐르면 서서히 알게 될 거야. 이제 조금 피곤하구나. 제피. 나를 침대로 데려다주겠니? 조금 눈을 붙여야겠다.”</p></div>
+        <div class="line robot"><span class="who">로봇</span><p class="say">“네 선생님…”</p></div>
+        <div class="line note"><p class="say">(주인님은 선생님이라고 불리는 것을 좋아한다)</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="8">
+      <div class="pic"><img src="img/s9.jpg" alt="노을 진 발코니에 나란히 선 노인과 로봇"><span class="no">08 / 09</span></div>
+      <div class="lines">
+        <div class="line elder"><span class="who">노인</span><p class="say">“내일은 네가 상상한… 그러니까 발생할 확률은 적지만 가정해 본 것들을 나에게 이야기해 주겠니? 궁금하구나… 어떤 상상을 했을지…”</p></div>
+        <div class="line robot"><span class="who">로봇</span><p class="say">“네. 내일 일어나시면, 시도해 본 상상을 말씀드리겠습니다. 선생님, 그럼 침실로 옮겨드리겠습니다.”</p></div>
+        <div class="line note"><p class="say">로봇은 거실의 소파에서 침실로 노인을 옮긴 후, 침대에 눕혔다. 침대는 이미 정리해 놓은 뒤라, 눕혀주고 이불만 덮어놓으면 임무는 마무리된다.</p></div>
+      </div>
+    </section>
+
+    <section class="page" data-p="9">
+      <div class="pic"><img src="img/s6.jpg" alt="밤, 잠든 노인과 창가에 선 로봇"><span class="no">09 / 09</span></div>
+      <div class="lines">
+        <div class="line elder"><span class="who">노인</span><p class="say">“늘 그렇듯이 나가기 전에 취침등은 켜둬 다오. 그리고 너도 이제 쉬도록 해…”</p></div>
+      </div>
+    </section>
+
+    <section class="page end" data-p="10">
+      <div class="pic"><img src="img/s6.jpg" alt=""></div>
+      <h2>끝</h2>
+      <p>오영, 「상상이란 무엇인가요?」(브런치, 2023. 7. 13.)를<br>바탕으로 그림책 형식으로 옮김</p>
+      <p><a href="https://brunch.co.kr/@50talktalk/73" target="_blank" rel="noopener">brunch.co.kr/@50talktalk/73</a></p>
+      <button class="btn" id="again" type="button">처음부터 다시 읽기</button>
+    </section>
+
+  </div>
+
+  <div class="bar">
+    <div class="nav"><button id="prev" type="button" aria-label="이전 장">‹ 이전</button></div>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <span class="counter" id="counter">표지</span>
+    <div class="nav"><button id="next" type="button" aria-label="다음 장">다음 ›</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var pages=document.getElementById('pages'), list=[].slice.call(pages.children), n=list.length;
+  var dots=document.getElementById('dots'), prev=document.getElementById('prev'), next=document.getElementById('next'), counter=document.getElementById('counter');
+  for(var i=0;i<n;i++){ var d=document.createElement('i'); dots.appendChild(d); }
+  var cur=0;
+  function label(i){ return i===0?'표지': i===n-1?'끝': (i<10?'0'+i:i)+' / 09'; }
+  function render(){
+    [].forEach.call(dots.children,function(d,i){ d.className=i===cur?'on':''; });
+    prev.disabled=cur===0; next.disabled=cur===n-1; counter.textContent=label(cur);
+    try{ localStorage.setItem('imagine-book-page',String(cur)); }catch(e){}
+  }
+  function go(i,instant){
+    cur=Math.max(0,Math.min(n-1,i));
+    pages.scrollTo({left:cur*pages.clientWidth,behavior:instant?'auto':'smooth'});
+    list[cur].scrollTop=0; render();
+  }
+  prev.addEventListener('click',function(){go(cur-1)});
+  next.addEventListener('click',function(){go(cur+1)});
+  document.getElementById('again').addEventListener('click',function(){go(0)});
+  document.addEventListener('keydown',function(e){ if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1); });
+  var t; pages.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var i=Math.round(pages.scrollLeft/pages.clientWidth); if(i!==cur){cur=i;render();} },80); },{passive:true});
+  window.addEventListener('resize',function(){ go(cur,true); });
+  var saved=0; try{ saved=parseInt(localStorage.getItem('imagine-book-page')||'0',10)||0; }catch(e){}
+  if(saved>0&&saved<n-1) go(saved,true); else render();
+})();
+</script>
